@@ -12,9 +12,9 @@ import { genSaltSync } from 'bcryptjs';
 export class UsersService {
   //Thông báo là UsersService sẽ sử dụng model User đã được khai báo từ user.module
   constructor(
-    @InjectModel(User.name)
     // Model<User> là kiểu cho usermodel
-   private userModel: Model<User>,
+    @InjectModel(User.name)
+    private userModel: Model<User>,
   ) {}
 
   hashPassword = (password: string) => {
@@ -23,12 +23,12 @@ export class UsersService {
     return hash;
   };
 
-  async create(email: string, password: string, name: string) {
-    const hashPassword = this.hashPassword(password);
+  async create(creatUserDTO: CreateUserDto) {
+    const hashPassword = this.hashPassword(creatUserDTO.password);
     const user = await this.userModel.create({
-      email,
+      email: creatUserDTO.email,
       password: hashPassword,
-      name,
+      name: creatUserDTO.name,
     });
     return user;
   }

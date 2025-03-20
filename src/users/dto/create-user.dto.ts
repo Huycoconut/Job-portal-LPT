@@ -1,2 +1,8 @@
 //data transform object
-export class CreateUserDto {}
+//class = object
+export class CreateUserDto {
+  email: string;
+  password: string;
+  name: string;
+  address: string;
+}
