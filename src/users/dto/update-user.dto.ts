@@ -1,4 +1,11 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+// eslint-disable-next-line prettier/prettier
+//OmitType: bỏ đi, có nghĩa là bỏ đi 1 cái gì đó kh cần update
+// ở đây ví dụ bỏ qua trường password
+export class UpdateUserDto extends OmitType(CreateUserDto, [
+  'password',
+] as const) {
+  _id: string;
+}
