@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 import { bcrypt, hashSync } from 'bcrypt';
-import { genSaltSync } from 'bcryptjs';
+import { compare, compareSync, genSaltSync } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -58,5 +58,13 @@ export class UsersService {
     } catch (error) {
       return 'Not found user!';
     }
+  }
+
+  findOneByUsername(username: string) {
+    return this.userModel.findOne({ email: username });
+  }
+
+  isValidassword(password:string, hash:string){
+    return compareSync(password,hash);
   }
 }
