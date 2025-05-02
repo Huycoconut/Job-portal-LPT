@@ -30,7 +30,7 @@ export class AuthService {
     const payload = { username: user.email, sub: user._id };
     return {
       access_token: this.jwtService.sign(payload, {
-        secret: this.configService.get<string>('JWT_SECRET'),
+        secret: this.configService.get<string>('JWT_ACCESS_TOKEN'),
       }),
     };
   }
