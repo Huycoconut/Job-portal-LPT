@@ -27,19 +27,19 @@ export class Company {
   @Prop()
   deleteAt: Date;
 
-  @Prop()
+  @Prop({ type: Object })
   createBy: {
-    _id: string;
+    _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
-  @Prop()
+  @Prop({ type: Object })
   updateBy: {
-    _id: string;
+    _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
-  @Prop()
+  @Prop({ type: Object })
   deleteBy: {
-    _id: string;
+    _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
 }
