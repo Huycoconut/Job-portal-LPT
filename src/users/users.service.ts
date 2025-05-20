@@ -4,9 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { bcrypt, hashSync } from 'bcrypt';
 import {  compareSync, genSaltSync } from 'bcryptjs';
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,7 @@ export class UsersService {
   constructor(
     // Model<User> là kiểu cho usermodel
     @InjectModel(User.name)
-    private userModel: Model<User>,
+    private userModel: SoftDeleteModel<UserDocument>,
   ) {}
 
   hashPassword = (password: string) => {
@@ -33,8 +34,8 @@ export class UsersService {
     return user;
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.userModel.find();
   }
 
   findOne(id: string) {
@@ -54,7 +55,7 @@ export class UsersService {
 
   remove(id: string) {
     try {
-      return this.userModel.deleteOne({ _id: id });
+      return this.userModel.softDelete({ _id: id });
     } catch (error) {
       return 'Not found user!';
     }
