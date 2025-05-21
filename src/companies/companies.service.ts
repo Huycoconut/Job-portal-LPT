@@ -5,6 +5,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { Company, CompanyDocument } from './schemas/company.schema';
 import { IUser } from 'src/users/user.interface';
+import { use } from 'passport';
 
 @Injectable()
 export class CompaniesService {
@@ -30,11 +31,37 @@ export class CompaniesService {
     return `This action returns a #${id} company`;
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
+  update(id: string, updateCompanyDto: UpdateCompanyDto, user: IUser) {
+    const userUpdate = this.companyModel.updateOne(
+      { _id: id },
+      {
+        ...updateCompanyDto,
+        updateBy: {
+          _id: user._id,
+          email: user.email,
+        },
+      },
+    );
+    return userUpdate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async remove(id: string, user: IUser) {
+    try {
+      await this.companyModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            deleteBy: {
+              _id: user._id,
+              email: user.email,
+            },
+          },
+        },
+      );
+
+      return await this.companyModel.softDelete({ _id: id });
+    } catch (e) {
+      return `Phát sinh lỗi ${e}`;
+    }
   }
 }
