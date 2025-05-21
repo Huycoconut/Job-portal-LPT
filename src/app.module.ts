@@ -14,6 +14,10 @@ import { CompaniesModule } from './companies/companies.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -26,13 +30,10 @@ import { CompaniesModule } from './companies/companies.module';
       inject: [ConfigService],
     }),
     UsersModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     AuthModule,
     CompaniesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService, JwtService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}
