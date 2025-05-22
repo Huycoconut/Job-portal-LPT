@@ -10,3 +10,7 @@ export const User = createParamDecorator(
     return request.user;
   },
 );
+
+export const RESPONSE_MASSAGE = 'response_massage';
+export const ResponseMessage = (message: string) =>
+  SetMetadata(RESPONSE_MASSAGE, message);

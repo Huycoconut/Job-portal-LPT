@@ -6,12 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { IUser } from 'src/users/user.interface';
-import { User } from 'src/decorator/customize';
+import { ResponseMessage, User } from 'src/decorator/customize';
 
 @Controller('companies')
 export class CompaniesController {
@@ -24,10 +25,11 @@ export class CompaniesController {
   }
 
   @Get()
+  @ResponseMessage('Fetch List Company paginate')
   findAll(
-    @Param() currentPage: number,
-    @Param() limit: number,
-    @Param() qs: string,
+    @Query('page') currentPage: number,
+    @Query('limit') limit: number,
+    @Query() qs: string,
   ) {
     return this.companiesService.findAll(currentPage, limit, qs);
   }
