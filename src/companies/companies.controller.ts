@@ -24,8 +24,12 @@ export class CompaniesController {
   }
 
   @Get()
-  findAll() {
-    return this.companiesService.findAll();
+  findAll(
+    @Param() currentPage: number,
+    @Param() limit: number,
+    @Param() qs: string,
+  ) {
+    return this.companiesService.findAll(currentPage, limit, qs);
   }
 
   @Get(':id')
