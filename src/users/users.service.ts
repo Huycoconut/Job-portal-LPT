@@ -137,4 +137,8 @@ export class UsersService {
     console.log('Password đã hash:', hash);
     return compareSync(password, hash);
   }
+
+  updateUserToken = async (refeshToken: string, _id: string) => {
+    return await this.userModel.updateOne({ _id }, { refeshToken });
+  };
 }
