@@ -22,16 +22,50 @@ export class User {
   phone: string;
 
   @Prop()
+  gender: string;
+
+  @Prop()
+  address: string;
+
+  @Prop({ type: Object })
+  company: {
+    _id: mongoose.Schema.Types.ObjectId;
+    name: string;
+  };
+
+  @Prop()
+  role: string;
+
+  @Prop()
+  refeshToken: string;
+
+  @Prop()
   createdAt: Date;
 
   @Prop()
-  updated: Date;
+  updatedAt: Date;
 
   @Prop()
   isDelete: boolean;
 
   @Prop()
   deleteAt: Date;
+
+  @Prop({ type: Object })
+  createBy: {
+    _id: mongoose.Schema.Types.ObjectId;
+    email: string;
+  };
+  @Prop({ type: Object })
+  updateBy: {
+    _id: mongoose.Schema.Types.ObjectId;
+    email: string;
+  };
+  @Prop({ type: Object })
+  deleteBy: {
+    _id: mongoose.Schema.Types.ObjectId;
+    email: string;
+  };
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
