@@ -27,11 +27,11 @@ export class CompaniesController {
   @Get()
   @ResponseMessage('Fetch List Company paginate')
   findAll(
-    @Query('page') currentPage: number,
-    @Query('limit') limit: number,
+    @Query('current') current: number,
+    @Query('pageSize') pageSize: number,
     @Query() qs: string,
   ) {
-    return this.companiesService.findAll(currentPage, limit, qs);
+    return this.companiesService.findAll(current, pageSize, qs);
   }
 
   @Get(':id')

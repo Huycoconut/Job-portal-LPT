@@ -27,11 +27,11 @@ export class UsersController {
 
   @Get()
   findAll(
-    @Query('page') currentPage: number,
-    @Query('limit') limit: number,
+    @Query('current') current: number,
+    @Query('pageSize') pageSize: number,
     @Query() qs: string,
   ) {
-    return this.usersService.findAll(currentPage, limit, qs);
+    return this.usersService.findAll(current, pageSize, qs);
   }
 
   @Public()
@@ -52,8 +52,8 @@ export class UsersController {
     return this.usersService.remove(id);
   }
 
-  @Get(':id')
-  findOneByUsername(username: string) {
-    return this.usersService.findOneByUsername(username);
-  }
+  // @Get(':id')
+  // findOneByUsername(username: string) {
+  //   return this.usersService.findOneByUsername(username);
+  // }
 }

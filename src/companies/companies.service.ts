@@ -25,29 +25,29 @@ export class CompaniesService {
     });
   }
 
-  async findAll(currentPage: number, limit: number, qs: string) {
+  async findAll(current: number, pageSize: number, qs: string) {
     const { filter, sort, population } = aqp(qs);
 
     delete filter.page;
-    delete filter.limit;
+    delete filter.pageSize;
 
-    const offset = (+currentPage - 1) * +limit;
-    const defualtLimit = +limit ? +limit : 10;
+    const offset = (+current - 1) * +pageSize;
+    const defualtpageSize = +pageSize ? +pageSize : 10;
 
     const totalItems = (await this.companyModel.find(filter)).length;
-    const totalPages = Math.ceil(totalItems / defualtLimit);
+    const totalPages = Math.ceil(totalItems / defualtpageSize);
 
     const result = await this.companyModel
       .find(filter)
       .skip(offset)
-      .limit(defualtLimit)
+      .limit(defualtpageSize)
       .sort(sort as any)
       .populate(population)
       .exec();
     return {
       meta: {
-        current: currentPage,
-        pageSize: limit,
+        current: current,
+        pageSize: pageSize,
         pages: totalPages,
         total: totalItems,
       },
