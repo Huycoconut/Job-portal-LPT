@@ -29,9 +29,13 @@ export class UsersController {
   findAll(
     @Query('current') current: number,
     @Query('pageSize') pageSize: number,
-    @Query() qs: string,
+    @Query() qs: any,
   ) {
-    return this.usersService.findAll(current, pageSize, qs);
+    const queryParamsForAqp = { ...qs }; // Tạo một bản sao
+    delete queryParamsForAqp.current; // Xóa current
+    delete queryParamsForAqp.pageSize; // Xóa pageSize
+
+    return this.usersService.findAll(current, pageSize, queryParamsForAqp);
   }
 
   @Public()

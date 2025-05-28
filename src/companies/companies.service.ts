@@ -25,29 +25,29 @@ export class CompaniesService {
     });
   }
 
-  async findAll(current: number, pageSize: number, qs: string) {
+  async findAll(current: number, pageSize: number, qs: any) {
     const { filter, sort, population } = aqp(qs);
 
-    delete filter.page;
-    delete filter.pageSize;
+    console.log('Final filter for MongoDB:', filter);
 
     const offset = (+current - 1) * +pageSize;
-    const defualtpageSize = +pageSize ? +pageSize : 10;
+    const defaultPageSize = +pageSize || 10;
 
-    const totalItems = (await this.companyModel.find(filter)).length;
-    const totalPages = Math.ceil(totalItems / defualtpageSize);
+    const totalItems = await this.companyModel.countDocuments(filter);
+    const totalPages = Math.ceil(totalItems / defaultPageSize);
 
     const result = await this.companyModel
       .find(filter)
       .skip(offset)
-      .limit(defualtpageSize)
+      .limit(defaultPageSize)
       .sort(sort as any)
       .populate(population)
       .exec();
+
     return {
       meta: {
-        current: current,
-        pageSize: pageSize,
+        current,
+        pageSize,
         pages: totalPages,
         total: totalItems,
       },

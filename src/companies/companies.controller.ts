@@ -29,9 +29,13 @@ export class CompaniesController {
   findAll(
     @Query('current') current: number,
     @Query('pageSize') pageSize: number,
-    @Query() qs: string,
+    @Query() qs: any,
   ) {
-    return this.companiesService.findAll(current, pageSize, qs);
+    const queryParamsForAqp = { ...qs }; // Tạo một bản sao
+    delete queryParamsForAqp.current; // Xóa current
+    delete queryParamsForAqp.pageSize; // Xóa pageSize
+
+    return this.companiesService.findAll(current, pageSize, queryParamsForAqp);
   }
 
   @Get(':id')
