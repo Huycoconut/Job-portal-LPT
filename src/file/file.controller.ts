@@ -14,7 +14,7 @@ import {
 import { UpdateFileDto } from './dto/update-file.dto';
 import { FileService } from './file.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Public } from 'src/decorator/customize';
+import { Public, ResponseMessage } from 'src/decorator/customize';
 
 @Controller('files')
 export class FileController {
@@ -22,16 +22,17 @@ export class FileController {
 
   @Public()
   @Post('upload')
+  @ResponseMessage('Upload signle file')
   @UseInterceptors(FileInterceptor('huynek'))
   uploadFile(
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
           fileType:
-            /\^(jpeg|jpg|image\?png|gif|txt|pdf|doc|docx|text\/plain||)$/i,
+            /^(image\/jpeg|image\/jpg|image\/png|image\/gif|text\/plain|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/i,
         })
         .addMaxSizeValidator({
-          maxSize: 1000,
+          maxSize: 1 * 1024 * 1024,
         })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -39,7 +40,7 @@ export class FileController {
     )
     file: Express.Multer.File,
   ) {
-    console.log(file);
+    return { file: file.filename };
   }
 
   @Get()
