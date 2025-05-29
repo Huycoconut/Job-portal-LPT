@@ -15,6 +15,10 @@ export class Company {
   @Prop()
   description: string;
 
+  @Prop({ required: true })
+  @Prop()
+  logo: string;
+
   @Prop()
   createdAt: Date;
 
