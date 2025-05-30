@@ -53,4 +53,7 @@ export class CreateJobDto {
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+
+  @IsNotEmpty()
+  logo: boolean;
 }

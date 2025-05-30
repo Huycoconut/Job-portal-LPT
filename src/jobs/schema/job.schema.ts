@@ -40,6 +40,7 @@ export class Jobs {
   company: {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
+    logo: string;
   };
 
   @Prop()

@@ -48,7 +48,7 @@ export class AuthController {
 
   @Public()
   @ResponseMessage('Get User by refresh token')
-  @Get('/refresh')
+  @Get('refresh')
   handleRefreshToken(
     @Req() req: Request,
     @Res({ passthrough: true }) response: Response,
@@ -58,7 +58,7 @@ export class AuthController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Get('/logout')
+  @Get('logout')
   async logOut(
     @Res({ passthrough: true }) response: Response,
     @User() user: IUser,
