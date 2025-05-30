@@ -10,24 +10,12 @@ import {
   IsMongoId,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import mongoose from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Jobs } from 'src/jobs/schema/job.schema';
+import { Resume } from '../schema/resume.schema';
 
-class ResumeHistoryDto {
-  @IsString()
-  status: string;
-
-  @IsDate()
-  @Type(() => Date)
-  updateAt: Date;
-
-  @ValidateNested()
-  @Type(() => Object)
-  updateBy: {
-    _id: mongoose.Types.ObjectId;
-    email: string;
-  };
-}
-
+//Khi cần validate 1 array thì tách ra thêm 1 class, nếu trong class có object và muốn validate object đó thì tiếp tục
+//tách object đó ra và validate
 export class CreateResumeDto {
   @IsNotEmpty({ message: 'userId không được bỏ trống' })
   userId: mongoose.Schema.Types.ObjectId;
@@ -37,10 +25,10 @@ export class CreateResumeDto {
   email: string;
 
   @IsNotEmpty({ message: 'URL không được bỏ trống' })
-  url?: string;
+  url: string;
 
   @IsNotEmpty({ message: 'status không được bỏ trống' })
-  status?: string;
+  status: string;
 
   @IsNotEmpty({ message: 'jobId không được bỏ trống' })
   jobId: mongoose.Schema.Types.ObjectId;

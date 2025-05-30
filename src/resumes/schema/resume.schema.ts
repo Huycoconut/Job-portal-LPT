@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsDate, IsEmail, IsNumber, IsString } from 'class-validator';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Company } from 'src/companies/schemas/company.schema';
+import { Jobs } from 'src/jobs/schema/job.schema';
 
 export type ResumeDocument = HydratedDocument<Resume>;
 
@@ -9,13 +11,13 @@ export class Resume {
   @Prop()
   userId: mongoose.Schema.Types.ObjectId;
 
-  @Prop()
+  @Prop({ ref: Jobs.name, type: mongoose.Schema.Types.ObjectId })
   jobId: mongoose.Schema.Types.ObjectId;
 
-  @Prop()
+  @Prop({ ref: Company.name, type: mongoose.Schema.Types.ObjectId })
   company: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop()
   email: string;
 
   @Prop()
