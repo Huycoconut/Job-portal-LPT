@@ -14,6 +14,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { User, UserSchema } from './users/schemas/user.schema';
 import { JobsModule } from './jobs/jobs.module';
 import { FileModule } from './file/file.module';
+import { ResumesModule } from './resumes/resumes.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { FileModule } from './file/file.module';
     CompaniesModule,
     JobsModule,
     FileModule,
+    ResumesModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
