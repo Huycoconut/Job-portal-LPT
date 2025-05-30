@@ -24,7 +24,7 @@ export class Resume {
   @Prop()
   status: string;
 
-  @Prop()
+  @Prop({ type: mongoose.Schema.Types.Array })
   history: {
     status: string;
     updateAt: Date;
