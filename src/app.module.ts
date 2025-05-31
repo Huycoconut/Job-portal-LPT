@@ -15,6 +15,8 @@ import { User, UserSchema } from './users/schemas/user.schema';
 import { JobsModule } from './jobs/jobs.module';
 import { FileModule } from './file/file.module';
 import { ResumesModule } from './resumes/resumes.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { ResumesModule } from './resumes/resumes.module';
     JobsModule,
     FileModule,
     ResumesModule,
+    PermissionsModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
