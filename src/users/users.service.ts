@@ -49,7 +49,7 @@ export class UsersService {
   }
 
   async register(user: RegisterUserDto) {
-    const { name, email, password, ege, gender, address } = user;
+    const { name, email, password, age, gender, address } = user;
     const hashPassword = await this.hashPassword(user.password);
     const exitUser = this.userModel.findOne({ email });
 
@@ -60,7 +60,7 @@ export class UsersService {
       name,
       email,
       password: hashPassword,
-      ege,
+      age,
       gender,
       address,
       role: 'USER',
