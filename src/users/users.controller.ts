@@ -52,8 +52,8 @@ export class UsersController {
 
   @ResponseMessage('Delete a new user')
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.usersService.remove(id, user);
   }
 
   // @Get(':id')

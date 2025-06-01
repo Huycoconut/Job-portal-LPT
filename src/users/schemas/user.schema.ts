@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsDate, IsEmail, IsNumber, IsString } from 'class-validator';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Role, RoleSchema } from 'src/roles/schema/role.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -33,8 +34,8 @@ export class User {
     name: string;
   };
 
-  @Prop()
-  role: string;
+  @Prop({ ref: Role.name, type: mongoose.Schema.Types.ObjectId })
+  role: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   refeshToken: string;

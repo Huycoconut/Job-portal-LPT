@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { isValidObjectId, Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { bcrypt, hashSync } from 'bcrypt';
 import { compareSync, genSaltSync } from 'bcryptjs';
@@ -102,7 +102,10 @@ export class UsersService {
     try {
       if (!mongoose.Types.ObjectId.isValid(id))
         return 'không tìm thấy người dùng';
-      return this.userModel.findOne({ _id: id }).select('-password'); // - : exclude/include
+      return this.userModel
+        .findOne({ _id: id })
+        .select('-password')
+        .populate({ path: 'role', select: { name: 1, _id: 1 } }); // - : exclude/include
     } catch (error) {
       return 'Not found user!';
     }
@@ -119,8 +122,28 @@ export class UsersService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string, user: IUser) {
+    //admin@gmail.com
     try {
+      if (!isValidObjectId(id)) {
+        throw new BadRequestException('Không tìm thấy Id');
+      }
+
+      const foundUser = await this.userModel.findById(id);
+      if (foundUser.email === 'admin@gmail.com') {
+        throw new BadRequestException('Không tìm thấy Id');
+      }
+
+      await this.userModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            _id: user._id,
+            name: user.name,
+          },
+        },
+      );
+
       return this.userModel.softDelete({ _id: id });
     } catch (error) {
       return 'Not found user!';
@@ -128,8 +151,9 @@ export class UsersService {
   }
 
   findOneByUsername(username: string) {
-    console.log('Username: ', username);
-    return this.userModel.findOne({ email: username });
+    return this.userModel
+      .findOne({ email: username })
+      .populate({ path: 'role', select: { name: 1, permission: 1 } });
   }
 
   isValidPassword(password: string, hash: string) {

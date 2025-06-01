@@ -123,10 +123,15 @@ export class ResumesService {
   }
 
   async getCvByUser(user: IUser) {
-    const getCv = this.resumeModel
-      .find({ userId: user._id })
-      .sort({ createdAt: -1 }); // sắp xếp mới nhất trước;
-
-    return getCv;
+    return await this.resumeModel
+      .find({
+        userId: user._id,
+      })
+      //-createdAt: lấy gần nhất
+      .sort('-createdAt')
+      .populate([
+        { path: 'companyId', select: { name: 1 } },
+        { path: 'jobId', select: { name: 1 } },
+      ]);
   }
 }
