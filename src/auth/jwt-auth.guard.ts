@@ -26,34 +26,33 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
+  //check permissions
   handleRequest(err, user, info, context: ExecutionContext) {
-    // You can throw an exception based on either "info" or "err" arguments
     const request: Request = context.switchToHttp().getRequest();
+
     if (err || !user) {
       throw (
         err ||
-        new UnauthorizedException(
-          'Token không hợp lệ or không có token berar ở header',
-        )
+        new UnauthorizedException('Token không hợp lệ hoặc không có token')
       );
     }
 
-    //check permissions
     const targetMethod = request.method; // ví dụ: GET, POST
-    const targetEndpoint = request.route?.path; // ví dụ: /users
+    const targetEndpoint = request.baseUrl + request.route.path; // ví dụ: /users
 
     const permissions = user?.permission ?? []; // danh sách quyền được cấp
+    // So sánh method và apipath của request với từng permission
+    // Nếu không có permission khớp → ném lỗi ForbiddenException
     const isExist = permissions.find(
-      // So sánh method và apipath của request với từng permission
-      // Nếu không có permission khớp → ném lỗi ForbiddenException
-      (permissions) =>
-        targetMethod === permissions.method &&
-        targetEndpoint === permissions.apipath,
+      (p) =>
+        p.method === targetMethod &&
+        '/' + p.apiPath.replace(/^\/+/, '') === targetEndpoint,
     );
 
-    if (!isExist) {
-      throw new ForbiddenException('Bạn không có quyền để truy cập API này ');
+    if (!isExist && !targetEndpoint.startsWith('/api/v1/auth')) {
+      throw new ForbiddenException('Bạn không có quyền để truy cập API này');
     }
+
     return user;
   }
 }
