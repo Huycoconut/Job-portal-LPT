@@ -38,7 +38,7 @@ export class User {
   role: mongoose.Schema.Types.ObjectId;
 
   @Prop()
-  refeshToken: string;
+  refreshToken: string;
 
   @Prop()
   createdAt: Date;

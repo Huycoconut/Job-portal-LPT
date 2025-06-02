@@ -11,6 +11,8 @@ import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { exit } from 'process';
 import { IUser } from './user.interface';
 import aqp from 'api-query-params';
+import { Role, RoleDocument } from 'src/roles/schema/role.schema';
+import { USER_ROLE } from 'src/databases/sample';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,9 @@ export class UsersService {
     // Model<User> là kiểu cho usermodel
     @InjectModel(User.name)
     private userModel: SoftDeleteModel<UserDocument>,
+
+    @InjectModel(Role.name)
+    private roleModel: SoftDeleteModel<RoleDocument>,
   ) {}
 
   hashPassword = (password: string) => {
@@ -56,6 +61,9 @@ export class UsersService {
     if (exitUser) {
       throw new BadRequestException(`email :${email} đã tồn tại`);
     }
+
+    //fetch user role
+    const userRole = await this.roleModel.findOne({ name: USER_ROLE });
     return await this.userModel.create({
       name,
       email,
@@ -63,7 +71,7 @@ export class UsersService {
       age,
       gender,
       address,
-      role: 'USER',
+      role: userRole?._id,
     });
   }
 
@@ -105,7 +113,7 @@ export class UsersService {
       return this.userModel
         .findOne({ _id: id })
         .select('-password')
-        .populate({ path: 'role', select: { name: 1, _id: 1 } }); // - : exclude/include
+        .populate({ path: 'role', select: { name: 1 } }); // - : exclude/include
     } catch (error) {
       return 'Not found user!';
     }
@@ -162,11 +170,13 @@ export class UsersService {
     return compareSync(password, hash);
   }
 
-  updateUserToken = async (refeshToken: string, _id: string) => {
-    return await this.userModel.updateOne({ _id }, { refeshToken });
+  updateUserToken = async (refreshToken: string, _id: string) => {
+    return await this.userModel.updateOne({ _id }, { refreshToken });
   };
 
   findUserByToken(refreshToken: string) {
-    return this.userModel.findOne({ refreshToken });
+    return this.userModel
+      .findOne({ refreshToken })
+      .populate({ path: 'role', select: { name: 1 } });
   }
 }

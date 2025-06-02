@@ -10,6 +10,7 @@ import { IUser } from 'src/users/user.interface';
 import { UsersService } from 'src/users/users.service';
 import ms from 'ms';
 import { Response } from 'express';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
     private congfiService: ConfigService,
+
+    private roleService: RolesService,
   ) {}
   //username va pass là 2 tham số thư viện passport trả về
   async validateUser(username: string, pass: string): Promise<any> {
@@ -29,14 +32,28 @@ export class AuthService {
       );
 
       if (isValid === true) {
-        return user;
+        const userRole = user.role as unknown as { _id: string; name: string };
+        const temp = await this.roleService.findOne(userRole._id);
+
+        const roleClean = {
+          _id: temp._id,
+          name: temp.name,
+        };
+
+        const objUser = {
+          ...user.toObject(),
+          role: roleClean,
+          permission: temp?.permission ?? [],
+        };
+
+        return objUser;
       }
     }
     return null;
   }
 
   async login(user: IUser, response: Response) {
-    const { _id, name, email, role } = user;
+    const { _id, name, email, role, permission } = user;
     const payload = {
       sub: 'token login',
       iss: 'from server',
@@ -64,6 +81,7 @@ export class AuthService {
         name,
         email,
         role,
+        permission,
       },
     };
   }
@@ -116,6 +134,9 @@ export class AuthService {
         const refreshExpire = this.congfiService.get(
           'JWT_REFRESH_EXPIRE',
         ) as ms.StringValue;
+        //fetch user role
+        const userRole = user.role as unknown as { _id: string; name: string };
+        const temp = await this.roleService.findOne(userRole._id);
 
         response.cookie('refresh_token', refresh_token, {
           httpOnly: true,
@@ -128,16 +149,17 @@ export class AuthService {
             name,
             email,
             role,
+            permission: temp?.permission ?? [],
           },
         };
       } else {
         throw new BadRequestException(
-          `Refresh token không hợp lệ, vui lòng login`,
+          `Refresh token không hợp lệ, vui lòng login!`,
         );
       }
     } catch (error) {
       throw new BadRequestException(
-        `Refresh token không hợp lệ, vui lòng login`,
+        `Refresh token không hợp lệ, vui lòng login `,
       );
     }
   };

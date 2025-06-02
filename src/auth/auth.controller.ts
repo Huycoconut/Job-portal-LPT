@@ -16,12 +16,15 @@ import { AuthService } from './auth.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { Request, Response } from 'express';
 import { IUser } from 'src/users/user.interface';
+import { RolesService } from 'src/roles/roles.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private configService: ConfigService,
+    //inject từ service này sang service khác phải import module vào service đó
+
     private authService: AuthService,
+    private roleService: RolesService,
   ) {}
 
   @Public()
@@ -32,11 +35,12 @@ export class AuthController {
     return this.authService.login(req.user, response);
   }
 
-  //@UseGuards(JwtAuthGuard)
-  @Public()
-  @Get('profile')
-  async getProfilea(@Req() req) {
-    return req.user;
+  @ResponseMessage('Get account infomation')
+  @Get('/account')
+  async handleGetAccount(@User() user: IUser) {
+    const temp = (await this.roleService.findOne(user.role._id)) as any;
+    user.permission = temp.permission;
+    return { user };
   }
 
   @Public()
@@ -54,6 +58,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const refreshToken = req.cookies['refresh_token'];
+
     return this.authService.processNewToken(refreshToken, response);
   }
 

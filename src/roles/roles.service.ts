@@ -8,6 +8,7 @@ import { Role, RoleDocument } from './schema/role.schema';
 import { IUser } from 'src/users/user.interface';
 import mongoose, { isValidObjectId } from 'mongoose';
 import aqp from 'api-query-params';
+import { ADMIN_ROLE } from 'src/databases/sample';
 
 @Injectable()
 export class RolesService {
@@ -96,14 +97,10 @@ export class RolesService {
       throw new BadRequestException('Không tìm thấy Id');
     }
 
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException('Không tìm thấy Id');
-    }
-
     const foundUser = await this.roleModel.findById(id);
 
-    if (foundUser.name === 'ADMIN') {
-      throw new BadRequestException('Không tìm thấy Id');
+    if (foundUser.name === ADMIN_ROLE) {
+      throw new BadRequestException('Không thể xóa role Admin');
     }
 
     const deleteRole = this.roleModel.softDelete({ _id: id });
