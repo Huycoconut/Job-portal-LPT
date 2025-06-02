@@ -1,0 +1,59 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
+import { SubcribersService } from './subcribers.service';
+import { CreateSubcriberDto } from './dto/create-subcriber.dto';
+import { UpdateSubcriberDto } from './dto/update-subcriber.dto';
+import { ResponseMessage, User } from 'src/decorator/customize';
+import { UpdateRoleDto } from 'src/roles/dto/update-role.dto';
+import { IUser } from 'src/users/user.interface';
+
+@Controller('subcribers')
+export class SubcribersController {
+  constructor(private readonly subcribersService: SubcribersService) {}
+
+  @Post()
+  create(@Body() createSubcriberDto: CreateSubcriberDto, @User() user: IUser) {
+    return this.subcribersService.create(createSubcriberDto, user);
+  }
+
+  @Get()
+  @ResponseMessage('Fetch List Jobs paginate')
+  findAll(
+    @Query('current') current: number,
+    @Query('pageSize') pageSize: number,
+    @Query() qs: any,
+  ) {
+    const queryParamsForAqp = { ...qs }; // Tạo một bản sao
+    delete queryParamsForAqp.current; // Xóa current
+    delete queryParamsForAqp.pageSize; // Xóa pageSize
+
+    return this.subcribersService.findAll(current, pageSize, queryParamsForAqp);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.subcribersService.findOne(id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateRoleDto: UpdateRoleDto,
+    @User() user: IUser,
+  ) {
+    return this.subcribersService.update(id, updateRoleDto, user);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.subcribersService.remove(id);
+  }
+}

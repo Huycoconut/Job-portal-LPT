@@ -5,9 +5,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000001',
     name: 'View Users',
-    apiPath: 'api/v1/users',
+    apiPath: '/api/v1/users',
     method: 'GET',
-    module: 'User',
+    module: 'USERS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000001',
       email: 'admin@gmail.com',
@@ -25,9 +25,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000002',
     name: 'Create User',
-    apiPath: 'api/v1/users',
+    apiPath: '/api/v1/users',
     method: 'POST',
-    module: 'User',
+    module: 'USERS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000001',
       email: 'admin@gmail.com',
@@ -45,9 +45,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000003',
     name: 'Update User',
-    apiPath: '/users/:id',
+    apiPath: '/api/v1/users/:id',
     method: 'PUT',
-    module: 'User',
+    module: 'USERS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000002',
       email: 'admin@gmail.com',
@@ -65,9 +65,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000004',
     name: 'Delete User',
-    apiPath: '/users/:id',
+    apiPath: '/api/v1/users/:id',
     method: 'DELETE',
-    module: 'User',
+    module: 'USERS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000002',
       email: 'admin@gmail.com',
@@ -85,9 +85,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000005',
     name: 'View Roles',
-    apiPath: '/roles',
+    apiPath: '/api/v1/roles',
     method: 'GET',
-    module: 'Role',
+    module: 'ROLES',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000003',
       email: 'huyvu@gmail.com',
@@ -105,9 +105,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000006',
     name: 'Assign Role',
-    apiPath: '/users/:id/role',
+    apiPath: '/api/v1/users/:id/role',
     method: 'PATCH',
-    module: 'Role',
+    module: 'ROLES',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000003',
       email: 'huyvu@gmail.com',
@@ -125,9 +125,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000007',
     name: 'View Permissions',
-    apiPath: '/permissions',
+    apiPath: '/api/v1/permissions',
     method: 'GET',
-    module: 'Permission',
+    module: 'PERMISSIONS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000004',
       email: 'huyvu@gmail.com',
@@ -145,9 +145,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000008',
     name: 'Create Permission',
-    apiPath: '/permissions',
+    apiPath: '/api/v1/permissions',
     method: 'POST',
-    module: 'Permission',
+    module: 'PERMISSIONS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000004',
       email: 'huyvu@gmail.com',
@@ -165,9 +165,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000009',
     name: 'View Company',
-    apiPath: '/companies',
+    apiPath: '/api/v1/companies',
     method: 'GET',
-    module: 'Company',
+    module: 'COMPANIES',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000005',
       email: 'huyvu@gmail.com',
@@ -185,9 +185,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000010',
     name: 'Edit Company',
-    apiPath: '/companies/:id',
-    method: 'PUT',
-    module: 'Company',
+    apiPath: '/api/v1/companies/:id',
+    method: 'PATCH',
+    module: 'COMPANIES',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000005',
       email: 'huyvu@gmail.com',
@@ -205,9 +205,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000011',
     name: 'View Jobs',
-    apiPath: '/jobs',
+    apiPath: '/api/v1jobs',
     method: 'GET',
-    module: 'Job',
+    module: 'JOBS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000006',
       email: 'user@gmail.com',
@@ -227,7 +227,7 @@ export const INIT_PERMISSION = [
     name: 'Create Job',
     apiPath: '/jobs',
     method: 'POST',
-    module: 'Job',
+    module: 'JOBS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000006',
       email: 'user@gmail.com',
@@ -245,9 +245,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000013',
     name: 'Delete Job',
-    apiPath: '/jobs/:id',
+    apiPath: 'api/v1/jobs/:id',
     method: 'DELETE',
-    module: 'Job',
+    module: 'JOBS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000006',
       email: 'admin@gmail.com',
@@ -268,9 +268,9 @@ export const INIT_PERMISSION = [
   {
     _id: '665a1d7f8c31b2a89f000014',
     name: 'Dashboard Access',
-    apiPath: '/dashboard',
+    apiPath: '/api/v1/jobs',
     method: 'GET',
-    module: 'Dashboard',
+    module: 'JOBS',
     createdBy: {
       _id: '665a1c9a8c31b2a89f000001',
       email: 'admin@gmail.com',
