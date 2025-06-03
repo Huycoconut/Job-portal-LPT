@@ -19,6 +19,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
 import { DatabasesModule } from './databases/databases.module';
 import { SubcribersModule } from './subcribers/subcribers.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { SubcribersModule } from './subcribers/subcribers.module';
       }),
       inject: [ConfigService],
     }),
+
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
 
     UsersModule,
@@ -49,6 +51,7 @@ import { SubcribersModule } from './subcribers/subcribers.module';
     RolesModule,
     DatabasesModule,
     SubcribersModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
