@@ -1,167 +1,49 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Danh sách việc làm phù hợp</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Xin chào {{name}},</h2>
+    <p>Dưới đây là các công việc phù hợp với kỹ năng của bạn:</p>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>ITVIỆC - Cơ hội mới và Kích hoạt tài khoản</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-      background-color: #f5f5f5;
-      padding: 20px;
-    }
+    <table>
+      <thead>
+        <tr>
+          <th>Tên công việc</th>
+          <th>Kỹ năng yêu cầu</th>
+          <th>Lương</th>
+          <th>Công ty</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each jobs}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{skills}}</td>
+          <td>{{salary}}</td>
+          <td>{{company}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
 
-    .container {
-      background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-    }
-
-    .header-mail {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .divider-solid,
-    .divider-dashed {
-      margin: 15px 0;
-      border-top: 1px solid rgba(5, 5, 5, 0.06);
-    }
-
-    .divider-dashed {
-      border-style: dashed;
-    }
-
-    .job {
-      display: flex;
-      flex-direction: column;
-      font-size: 13px;
-      margin-bottom: 15px;
-    }
-
-    .job-title {
-      font-size: 17px;
-      margin-bottom: 4px;
-    }
-
-    .company {
-      margin-bottom: 4px;
-    }
-
-    .salary {
-      margin-bottom: 8px;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-
-    .tag {
-      background-color: #e0e0e0;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-
-    .footer-mail {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .btn {
-      display: inline-block;
-      margin: 20px 0;
-      padding: 12px 24px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="header-mail">
-      <div>IT VIỆC</div>
-      <div>It hiring đã chạy!</div>
-    </div>
-
-    <div class="divider-solid"></div>
-
-    <div>Xin chào {{name}},</div>
-    <div>Cảm ơn bạn đã đăng ký tài khoản trên IT Việc!</div>
-    <div>Vui lòng nhấn nút bên dưới để kích hoạt tài khoản của bạn:</div>
-
-    <div style="text-align: center;">
-      <a class="btn" href="https://yourdomain.com/activate/{{activationCode}}" target="_blank">Kích hoạt tài khoản</a>
-    </div>
-
-    <div>Ngoài ra, một số cơ hội việc làm dưới đây có thể phù hợp với bạn. Khám phá ngay!</div>
-
-    <div class="divider-dashed"></div>
-
-    <!-- Job 1 -->
-    <div class="job">
-      <div class="job-title">
-        <a href="#" target="_blank">Web Developer (PHP, Javascript)</a>
-      </div>
-      <div class="company">VINARET CO.LTD</div>
-      <div class="salary">1,000 – 2,500 USD</div>
-      <div class="tags">
-        <span class="tag">Javascript</span>
-        <span class="tag">Laravel</span>
-        <span class="tag">PHP</span>
-      </div>
-    </div>
-
-    <div class="divider-dashed"></div>
-
-    <!-- Job 2 -->
-    <div class="job">
-      <div class="job-title">
-        <a href="#" target="_blank">Frontend Developer (ReactJS)</a>
-      </div>
-      <div class="company">TechNova</div>
-      <div class="salary">1,200 – 2,800 USD</div>
-      <div class="tags">
-        <span class="tag">ReactJS</span>
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-      </div>
-    </div>
-
-    <div class="divider-dashed"></div>
-
-    <!-- Job 3 -->
-    <div class="job">
-      <div class="job-title">
-        <a href="#" target="_blank">Backend Developer (Node.js)</a>
-      </div>
-      <div class="company">NextGen Solutions</div>
-      <div class="salary">1,500 – 3,000 USD</div>
-      <div class="tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">MongoDB</span>
-        <span class="tag">Express</span>
-      </div>
-    </div>
-
-    <div class="divider-solid"></div>
-
-    <div class="footer-mail">
-      <div>Cheers,</div>
-      <div>The ITViec Team</div>
-    </div>
-  </div>
-</body>
-
+    <p>Trân trọng,<br />Đội ngũ Job Portal</p>
+  </body>
 </html>

@@ -10,7 +10,7 @@ export class Jobs {
   name: string;
 
   @Prop()
-  skill: string[];
+  skills: string[];
 
   @Prop()
   quantity: string;
@@ -36,10 +36,10 @@ export class Jobs {
   @Prop()
   isActive: boolean;
 
-  @Prop({ type: Object })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Company' })
   company: {
     _id: mongoose.Schema.Types.ObjectId;
-    email: string;
+    name: string;
     logo: string;
   };
 

@@ -18,7 +18,7 @@ export class CreateJobDto {
   @IsArray({ message: 'Sai định dạng' })
   @IsString({ each: true })
   @IsOptional()
-  skill?: string[];
+  skills?: string[];
 
   @IsString()
   @IsOptional()
@@ -53,7 +53,4 @@ export class CreateJobDto {
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
-
-  @IsNotEmpty()
-  logo: boolean;
 }
