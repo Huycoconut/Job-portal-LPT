@@ -19,7 +19,7 @@ import {
   SubcriberDocument,
 } from 'src/subcribers/schema/subcriber.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { IUser } from 'src/users/user.interface';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('mail')
 export class MailController {
@@ -35,6 +35,7 @@ export class MailController {
   @Get('send')
   @Public()
   @ResponseMessage('Send test email')
+  @Cron('* 0 0 * * 0') // 0h00 am every sunday
   public async sendMail(): Promise<void> {
     const subcribers = await this.subcriberModel.find({});
     for (const subs of subcribers) {
@@ -72,25 +73,5 @@ export class MailController {
         });
       }
     }
-  }
-
-  @Post()
-  create(@Body() createMailDto: CreateMailDto) {
-    return this.mailService.create(createMailDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.mailService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mailService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mailService.remove(+id);
   }
 }
