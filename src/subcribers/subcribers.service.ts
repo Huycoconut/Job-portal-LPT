@@ -66,15 +66,15 @@ export class SubcribersService {
     return findSubcriber;
   }
 
-  update(id: string, updateSubcriberDto: UpdateSubcriberDto, user: IUser) {
+  update(updateSubcriberDto: UpdateSubcriberDto, user: IUser) {
     const { email, name, skills } = updateSubcriberDto;
-    if (isValidObjectId(id)) {
-      throw new BadRequestException('Id không hợp lệ, hãy thử lại');
-    }
 
     const updateSubcriber = this.subcriberModel.updateOne(
-      { _id: id },
-      { email, name, skills, updateBy: { _id: user._id, email: user.email } },
+      { email: user.email },
+      { ...updateSubcriberDto, updateBy: { _id: user._id, email: user.email } },
+      //upsert: nếu bản ghi đã tồn tại thì update, chưa tồn tại thì insert
+      //upsert = insert + update
+      { upsert: true },
     );
     return updateSubcriber;
   }
@@ -86,5 +86,10 @@ export class SubcribersService {
 
     const deleteSubcriber = this.subcriberModel.softDelete({ _id: id });
     return deleteSubcriber;
+  }
+
+  async getSkills(user: IUser) {
+    const { email } = user;
+    return await this.subcriberModel.findOne({ email }, { skill: 1 });
   }
 }

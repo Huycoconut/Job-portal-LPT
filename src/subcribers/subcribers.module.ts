@@ -12,5 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [SubcribersController],
   providers: [SubcribersService],
+  exports: [SubcribersService],
 })
 export class SubcribersModule {}

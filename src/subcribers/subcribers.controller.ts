@@ -1,3 +1,4 @@
+import { SkipCheckPermission } from './../decorator/customize';
 import {
   Controller,
   Get,
@@ -11,7 +12,7 @@ import {
 import { SubcribersService } from './subcribers.service';
 import { CreateSubcriberDto } from './dto/create-subcriber.dto';
 import { UpdateSubcriberDto } from './dto/update-subcriber.dto';
-import { ResponseMessage, User } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { UpdateRoleDto } from 'src/roles/dto/update-role.dto';
 import { IUser } from 'src/users/user.interface';
 
@@ -43,17 +44,20 @@ export class SubcribersController {
     return this.subcribersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateRoleDto: UpdateRoleDto,
-    @User() user: IUser,
-  ) {
-    return this.subcribersService.update(id, updateRoleDto, user);
+  @Patch()
+  update(@Body() updateRoleDto: UpdateRoleDto, @User() user: IUser) {
+    return this.subcribersService.update(updateRoleDto, user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.subcribersService.remove(id);
+  }
+
+  @Post('skills')
+  @ResponseMessage("Get subcriber's skills")
+  @SkipCheckPermission()
+  getUserSkills(@User() user: IUser) {
+    return this.subcribersService.getSkills(user);
   }
 }

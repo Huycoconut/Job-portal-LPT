@@ -4,6 +4,9 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true); //key and value
 
+export const IS_PUBLIC_PERMISSION = 'isPermission';
+export const SkipCheckPermission = () => SetMetadata(IS_PUBLIC_KEY, true);
+
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
