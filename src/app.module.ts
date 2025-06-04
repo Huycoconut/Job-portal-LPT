@@ -21,10 +21,18 @@ import { DatabasesModule } from './databases/databases.module';
 import { SubcribersModule } from './subcribers/subcribers.module';
 import { MailModule } from './mail/mail.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
+
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60,
+        limit: 10,
+      },
+    ]),
 
     ConfigModule.forRoot({
       isGlobal: true,

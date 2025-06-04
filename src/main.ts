@@ -40,7 +40,7 @@ async function bootstrap() {
   });
 
   //helmet
-  app.use(helmet);
+  //app.use(helmet);
 
   await app.listen(configService.get<string>('PORT'));
 }

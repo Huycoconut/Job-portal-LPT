@@ -14,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserDocument, UserSchema } from 'src/users/schemas/user.schema';
 import { RolesService } from 'src/roles/roles.service';
 import { RolesModule } from 'src/roles/roles.module';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
