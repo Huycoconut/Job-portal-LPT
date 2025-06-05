@@ -22,6 +22,7 @@ import { SubcribersModule } from './subcribers/subcribers.module';
 import { MailModule } from './mail/mail.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     DatabasesModule,
     SubcribersModule,
     MailModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
