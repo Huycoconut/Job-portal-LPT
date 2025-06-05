@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
   MulterOptionsFactory,
   MulterModuleOptions,
@@ -6,6 +6,7 @@ import {
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
 import * as path from 'path';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
@@ -21,24 +22,59 @@ export class MulterConfigService implements MulterOptionsFactory {
     }
   }
 
-  createMulterOptions(): MulterModuleOptions {
+  //has add file fillter and limit data upload file
+  createMulterOptions(): MulterOptions {
     return {
       storage: diskStorage({
         destination: (req, file, cb) => {
-          // Lấy folder_type từ header hoặc dùng "default"
-          const folder = req?.headers?.['folder_type']?.toString() ?? 'default';
-          const uploadPath = `public/images/${folder}`;
-          this.ensureExists(uploadPath);
-          cb(null, path.join(this.getRootPath(), uploadPath));
+          const folder = req.headers['folder_type']?.toString() || 'default';
+          const uploadPath = path.join(process.cwd(), 'public/images', folder);
+
+          // Tạo thư mục nếu chưa tồn tại
+          if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+          }
+
+          cb(null, uploadPath);
         },
+
         filename: (req, file, cb) => {
           const extName = path.extname(file.originalname);
           const baseName = path.basename(file.originalname, extName);
-          const timestamp = Date.now();
-          const finalName = `${baseName}-${timestamp}${extName}`;
+          const finalName = `${baseName}-${Date.now()}${extName}`;
           cb(null, finalName);
         },
       }),
+
+      fileFilter: (req, file, cb) => {
+        const allowedFileTypes = [
+          'jpg',
+          'jpeg',
+          'png',
+          'gif',
+          'pdf',
+          'doc',
+          'docx',
+        ];
+        const fileExt = file.originalname.split('.').pop()?.toLowerCase();
+
+        const isValidFileType = fileExt && allowedFileTypes.includes(fileExt);
+
+        if (!isValidFileType) {
+          return cb(
+            new HttpException(
+              'Invalid file type',
+              HttpStatus.UNPROCESSABLE_ENTITY,
+            ),
+            false,
+          );
+        }
+
+        cb(null, true);
+      },
+      limits: {
+        fieldSize: 1024 * 1024 * 1, //true
+      },
     };
   }
 }
