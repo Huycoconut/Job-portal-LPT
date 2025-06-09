@@ -53,6 +53,9 @@ export class CreateUserDto {
   @ValidateNested()
   @Type(() => Company)
   company: string;
+
+  @IsString({ message: 'cv phải là 1 chuỗi' })
+  cv: string;
 }
 
 export class RegisterUserDto {
