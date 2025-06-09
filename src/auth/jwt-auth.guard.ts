@@ -54,13 +54,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         '/' + p.apiPath.replace(/^\/+/, '') === targetEndpoint,
     );
 
-    if (
-      !isExist &&
-      !targetEndpoint.startsWith('/api/v1/auth') &&
-      !isSkipPermission
-    ) {
-      throw new ForbiddenException('Bạn không có quyền để truy cập API này');
-    }
+    // if (
+    //   !isExist &&
+    //   !targetEndpoint.startsWith('/api/v1/auth') &&
+    //   !isSkipPermission
+    // ) {
+    //   throw new ForbiddenException('Bạn không có quyền để truy cập API này');
+    // }
 
     return user;
   }

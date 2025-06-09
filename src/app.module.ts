@@ -23,6 +23,7 @@ import { MailModule } from './mail/mail.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { HealthModule } from './health/health.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { HealthModule } from './health/health.module';
     SubcribersModule,
     MailModule,
     HealthModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService],
