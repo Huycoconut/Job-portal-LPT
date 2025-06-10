@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Danh sách việc làm phù hợp</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Xin chào {{name}},</h2>
+    <p>Dưới đây là các công việc phù hợp với kỹ năng của bạn:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tên công việc</th>
+          <th>Kỹ năng yêu cầu</th>
+          <th>Lương</th>
+          <th>Công ty</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each jobs}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{skills}}</td>
+          <td>{{salary}}</td>
+          <td>{{company}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <p>Trân trọng,<br />Đội ngũ Job Portal</p>
+  </body>
+</html>
